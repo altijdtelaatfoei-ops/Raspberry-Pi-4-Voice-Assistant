@@ -1,178 +1,232 @@
-# Raspberry-Pi-4-Voice-Assistant
+# 🥧🎙️ OnDevice Pi Voice Assistant
 
-Een lichte, privacygerichte spraakassistent die volledig offline draait op je Raspberry Pi 4.
-Gebouwd met:
+A lightweight, privacy-focused voice assistant that runs entirely offline on your Raspberry Pi 4. Built with OpenAI's Whisper for speech recognition, Ollama for intelligent responses, and KittenTTS for natural-sounding speech synthesis - everything processed locally on your device.
 
-* **OpenAI Whisper** voor spraakherkenning
-* **Ollama** voor intelligente antwoorden
-* **KittenTTS** voor natuurlijk klinkende spraaksynthese
+## ✨ Features
 
-Alles wordt lokaal op je apparaat verwerkt, zonder cloudverbinding.
+- 🏠 **100% On-Device Processing** - No cloud, no internet required after setup
+- 🔊 **Real-time Speech Recognition** - Powered by OpenAI Whisper Tiny (39MB)
+- 🥧 **Raspberry Pi Optimized** - Designed specifically for Pi 4 performance
+- 🧠 **Local AI Responses** - Uses Ollama with ultra-lightweight gemma3:270m model
+- 🗣️ **Neural Text-to-Speech** - KittenTTS for natural-sounding voice (25MB)
+- 🔒 **Privacy First** - Your conversations never leave your device
+- ⚡ **Low Resource Usage** - Runs smoothly on Pi 4 with 4GB RAM
+- 🎛️ **Simple CLI Interface** - Easy to use command-line operation
+- 🔄 **Conversation Memory** - Maintains context across interactions
+- 🎵 **Multiple Voices** - 8 different TTS voice options
 
----
+## 🚀 Quick Start
 
-## Functies
+### Prerequisites
 
-* 100% lokaal – geen internet nodig na installatie
-* Realtime spraakherkenning met Whisper Tiny (39MB)
-* Geoptimaliseerd voor Raspberry Pi 4
-* Lokale AI-antwoorden met Ollama en gemma3:270m model
-* Neurale tekst-naar-spraak met KittenTTS (25MB)
-* Privacy gegarandeerd – gesprekken blijven lokaal
-* Weinig systeembronnen nodig – werkt soepel op Pi 4 met 4GB RAM
-* Eenvoudige CLI-interface (command-line bediening)
-* Gespreksgeheugen – onthoudt context tussen vragen
-* Meerdere TTS-stemopties (8 verschillende stemmen)
+- **Raspberry Pi 4** (4GB+ RAM recommended)
+- Python 3.8+
+- Microphone and speakers/headphones
+- [Ollama](https://ollama.ai/) installed and running
+- MicroSD card (32GB+ recommended)
 
----
+### Installation
 
-## Snel starten
+1. **Clone the repository:**
+```bash
+git clone https://github.com/dwain-barnes/ondevice-pi-voice-assistant.git
+cd ondevice-pi-voice-assistant
+```
+# Create venv
+python -m venv ondevice-voice-env
 
-### Benodigdheden
+# Or with specific Python version
+python3 -m venv ondevice-voice-env
 
-* Raspberry Pi 4 (minimaal 4GB RAM, 8GB aanbevolen)
-* Python 3.8+
-* Microfoon en luidsprekers/koptelefoon
-* Ollama geïnstalleerd en draaiend
-* MicroSD-kaart (32GB+ aanbevolen)
+# Command Prompt
+ondevice-voice-env\Scripts\activate
 
-### Installatie
+# PowerShell
+ondevice-voice-env\Scripts\Activate.ps1
 
-1. Repository klonen:
+# Git Bash
+source ondevice-voice-env/Scripts/activate
 
-   ```bash
-   git clone https://github.com/dwain-barnes/ondevice-pi-voice-assistant.git
-   cd ondevice-pi-voice-assistant
-   ```
+# Linux/Mac/Pi
+source ondevice-voice-env/bin/activate
 
-2. Virtuele omgeving maken:
+2. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+pip install https://github.com/KittenML/KittenTTS/releases/download/0.1/kittentts-0.1.0-py3-none-any.whl
+sudo apt-get install portaudio19-dev
+curl -fsSL https://ollama.com/install.sh | sh
+```
 
-   ```bash
-   python3 -m venv ondevice-voice-env
-   source ondevice-voice-env/bin/activate
-   ```
+3. **Setup Ollama (if not already installed):**
+```bash
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
 
-3. Afhankelijkheden installeren:
+# Pull the lightweight model (perfect for Pi 4)
+ollama run gemma3:270m
+```
 
-   ```bash
-   pip install -r requirements.txt
-   pip install https://github.com/KittenML/KittenTTS/releases/download/0.1/kittentts-0.1.0-py3-none-any.whl
-   sudo apt-get install portaudio19-dev
-   curl -fsSL https://ollama.com/install.sh | sh
-   ```
+4. **Run the assistant:**
+```bash
+python pi-voice-assistant.py
+```
 
-4. Ollama instellen:
+> **💡 Pro tip:** The first time you run it, Ollama will automatically download the gemma3:270m model (~270MB). This happens once and then everything runs locally!
 
-   ```bash
-   curl -fsSL https://ollama.ai/install.sh | sh
-   ollama run gemma3:270m
-   ```
+## 🎯 Usage
 
-5. Start de assistent:
+Once running, you can:
 
-   ```bash
-   python pi-voice-assistant.py
-   ```
+- **Press ENTER** to start recording your voice
+- **Press ENTER again** to stop recording and get a response
+- **Type commands:**
+  - `voice` - Change TTS voice (8 options)
+  - `clear` - Clear conversation history
+  - `quit` - Exit the assistant
 
-Bij de eerste keer gebruik wordt automatisch het gemma3:270m model (\~270MB) gedownload. Daarna draait alles volledig lokaal.
+### Example Interaction
 
----
+```
+🎤 Recording... Press ENTER to stop
+🛑 Recording stopped (3.2s recorded)
+🗣️ Converting speech to text with Whisper...
+You said: What's the weather like today?
 
-## Gebruik
+🤖 Thinking...
+Pi Assistant: I don't have access to real-time weather data since I'm running locally, 
+but I'd be happy to help you find weather information or discuss other topics!
 
-* Druk **ENTER** om opname te starten
-* Druk nogmaals **ENTER** om opname te stoppen en een antwoord te krijgen
-* Beschikbare commando’s:
+🔊 Generating speech...
+🔊 Playing speech...
+```
 
-  * `voice` – wijzig TTS-stem (8 opties)
-  * `clear` – wis gespreksgeschiedenis
-  * `quit` – stop de assistent
+## 📋 Requirements
 
----
+### Software Dependencies
+- `openai-whisper` - Speech recognition
+- `torch` - Neural network framework
+- `ollama` - Local LLM client
+- `kittentts` - Text-to-speech synthesis
+- `pyaudio` - Audio I/O
+- `soundfile` - Audio file handling
+- `numpy` - Numerical operations
 
-## Vereisten
+### Hardware Requirements
 
-### Software
+**Minimum (Raspberry Pi 4):**
+- 4GB RAM
+- MicroSD card (32GB+)
+- USB microphone
+- Audio output (speakers/headphones)
 
-* `openai-whisper` – spraakherkenning
-* `torch` – neural network framework
-* `ollama` – lokale AI-client
-* `kittentts` – tekst-naar-spraak
-* `pyaudio` – audio-invoer/uitvoer
-* `soundfile`, `numpy` – audio en berekeningen
+**Recommended:**
+- 8GB RAM for smoother performance
+- Fast MicroSD card (Class 10/U3)
+- Quality USB microphone for better recognition
 
-### Hardware
+## 🔧 Configuration
 
-* Minimum: Raspberry Pi 4, 4GB RAM, 32GB microSD, USB-microfoon
-* Aanbevolen: Raspberry Pi 4 (8GB RAM), snelle SD-kaart (Class 10/U3), hoogwaardige microfoon
-
----
-
-## Configuratie
-
-Pas instellingen aan in `pi-voice-assistant.py`:
+Edit the configuration in `pi-voice-assistant.py`:
 
 ```python
-self.ollama_model = "gemma3:270m"  # AI-model
-self.whisper_model = "tiny"        # opties: tiny, base, small, medium, large
-self.tts_voice = "expr-voice-2-f"  # standaardstem (8 opties)
+# Ollama settings
+self.ollama_host = "http://localhost:11434"
+self.ollama_model = "gemma3:270m"  # Lightweight model perfect for Pi 4
+
+# Whisper settings  
+self.whisper_model = "tiny"   # Options: tiny, base, small, medium, large
+
+# TTS settings
+self.tts_voice = "expr-voice-2-f"  # 8 voice options available
 ```
 
----
+## 🎨 Available TTS Voices
 
-## Beschikbare TTS-stemmen
+1. `expr-voice-2-m` - Male voice 1
+2. `expr-voice-2-f` - Female voice 1 (default)
+3. `expr-voice-3-m` - Male voice 2
+4. `expr-voice-3-f` - Female voice 2
+5. `expr-voice-4-m` - Male voice 3
+6. `expr-voice-4-f` - Female voice 3
+7. `expr-voice-5-m` - Male voice 4
+8. `expr-voice-5-f` - Female voice 4
 
-* Mannelijk: expr-voice-2-m, expr-voice-3-m, expr-voice-4-m, expr-voice-5-m
-* Vrouwelijk: expr-voice-2-f, expr-voice-3-f, expr-voice-4-f, expr-voice-5-f
-
----
-
-## Architectuur
+## 🏗️ Architecture
 
 ```
-Microfoon (Audio In) → Whisper Tiny (spraak→tekst) → Ollama (AI)
-                                  ↓
-Speakers (Audio Out) ← KittenTTS (tekst→spraak)
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Microphone    │───▶│   Whisper Tiny   │───▶│     Ollama      │
+│   (Audio In)    │    │ (Speech-to-Text) │    │   (AI Model)    │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                                         │
+┌─────────────────┐    ┌──────────────────┐             │
+│    Speakers     │◀───│    KittenTTS     │◀────────────┘
+│  (Audio Out)    │    │ (Text-to-Speech) │
+└─────────────────┘    └──────────────────┘
 ```
 
----
+## 📊 Performance
 
-## Prestaties
+**Model Sizes:**
+- Whisper Tiny: ~39MB
+- KittenTTS: ~25MB
+- Gemma3:270m: ~270MB
+- **Total footprint: ~334MB**
 
-* Whisper Tiny: \~39MB
-* KittenTTS: \~25MB
-* Gemma3:270m: \~270MB
-* Totaal: \~334MB
+**Memory Usage (Pi 4 with gemma3:270m):**
+- Idle: ~200MB RAM
+- During processing: ~800MB-1.2GB RAM
+- Perfect for Pi 4 with 4GB+ RAM!
 
-Geheugenverbruik op Raspberry Pi 4 (4GB RAM):
+**Response Times (Pi 4):**
+- Speech recognition: ~1-2 seconds
+- AI response generation: ~2-5 seconds
+- Speech synthesis: ~1-2 seconds
+- **Total interaction: ~4-9 seconds**
 
-* Idle: \~200MB
-* Tijdens verwerking: \~800MB–1.2GB
-* Reactietijd: 4–9 seconden
+## 🛠️ Troubleshooting
 
----
+### Common Issues
 
-## Problemen oplossen
-
-**Audio werkt niet**
-Controleer beschikbare audio-apparaten:
-
+**Audio not working:**
 ```bash
+# Check audio devices
 python -c "import pyaudio; p=pyaudio.PyAudio(); [print(f'{i}: {p.get_device_info_by_index(i)[\"name\"]}') for i in range(p.get_device_count())]"
 ```
 
-**Ollama reageert niet**
-
+**Ollama not responding:**
 ```bash
+# Check if Ollama is running
 ollama list
-ollama serve
+ollama serve  # Start Ollama if needed
 ```
 
-**KittenTTS installatieproblemen**
-
+**KittenTTS installation issues:**
 ```bash
+# Alternative KittenTTS install
 pip install --upgrade pip
 pip install https://github.com/KittenML/KittenTTS/releases/download/0.1/kittentts-0.1.0-py3-none-any.whl --force-reinstall
 ```
 
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [OpenAI Whisper](https://github.com/openai/whisper) - Excellent speech recognition
+- [Ollama](https://ollama.ai/) - Making local LLMs accessible
+- [KittenTTS](https://github.com/KittenML/KittenTTS) - Lightweight neural TTS
+- [Raspberry Pi Foundation](https://www.raspberrypi.org/) - Affordable computing for everyone
+
+## 🔗 Related Projects
+
+- [Ollama](https://github.com/ollama/ollama) - Run LLMs locally
+- [Whisper](https://github.com/openai/whisper) - Speech recognition by OpenAI
+- [Voice Assistant Examples](https://github.com/topics/voice-assistant) - More voice assistant projects
+
 ---
+
+**⭐ If this project helped you, please give it a star!**
